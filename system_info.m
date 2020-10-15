@@ -1,7 +1,7 @@
 function [H,Ts,drone1_info, drone2_info, bar_info] = system_info
     
     H=15;
-    Ts = 0.1;
+    Ts = 0.2;
     
     id1_u1 = 1:H;
     id1_u2 = (1:H) + H;

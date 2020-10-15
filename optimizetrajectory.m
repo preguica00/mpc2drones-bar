@@ -1,7 +1,7 @@
-  function  [command, optimum, predicted_trajectory] = optimizetrajectory(current_state, optimum)
+  function  [command, optimum, predicted_trajectory] = optimizetrajectory(current_state, optimum,k)
 
 
-[m_system, m_bar, inertia_moment,arm_moment,g, C_barra, L_barra] = parameters;
+[m, m_bar, inertia_moment,arm_moment,g, C_barra] = parameters;
 %% Initial conditions 
     
     % drone 1
@@ -38,15 +38,15 @@
 
     opts = optimoptions('fmincon','Algorithm','sqp','TolFun',0.001,'MaxIter',100000,'MaxFunEvals',100000);
 % 
- 
-    lb =[-0.2*ones(H,1);0*ones(H,1);-Inf*ones(2*H,1);-0.5*ones(H,1);0*ones(H,1);-Inf*ones(8*H,1)];
-    ub=[0.2*ones(H,1);20*ones(H,1);Inf*ones(2*H,1);0.3*ones(H,1);20*ones(H,1); Inf*ones(8*H,1)];
+%  
+%     lb =[-5*ones(H,1);0*ones(H,1);-Inf*ones(2*H,1);-5*ones(H,1);0*ones(H,1);-Inf*ones(8*H,1)];
+%     ub=[5*ones(H,1);30*ones(H,1);Inf*ones(2*H,1);5*ones(H,1);30*ones(H,1); Inf*ones(8*H,1)];
 
-% %         lb =[-0.5*ones(H,1);-0.1*ones(H,1);-Inf*ones(2*H,1);-0.1*ones(H,1);-0.1*ones(H,1);-Inf*ones(8*H,1)];
+% % %         lb =[-0.5*ones(H,1);-0.1*ones(H,1);-Inf*ones(2*H,1);-0.1*ones(H,1);-0.1*ones(H,1);-Inf*ones(8*H,1)];
 %     ub=[0.5*ones(H,1);0.3*ones(H,1);Inf*ones(2*H,1);0.3*ones(H,1);0.2*ones(H,1);Inf*ones(8*H,1)];
-% lb=[];
-% ub=[];
-    [optimum, ~] = fmincon(@(y)costfunction(y, H), optimum,[],[],[],[],lb,ub,@(y)discretization(y,init_vector),opts);
+lb=[];
+ub=[];
+    [optimum, ~] = fmincon(@(y)costfunction(y, H,k), optimum,[],[],[],[],lb,ub,@(y)discretization(y,init_vector),opts);
    
    
   %% Unpacking drones

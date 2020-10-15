@@ -1,7 +1,7 @@
 function [c, ceq] = discretization(y,init_vector)
 
 [H,Ts,drone1_info, drone2_info, bar_info] = system_info;
-[m_system, m_bar, inertia_moment,arm_moment,g, C_barra, L_barra] = parameters;
+[m, m_bar, inertia_moment,arm_moment,g, C_barra] = parameters;
 
 %% Unpacking drones
 % drone 1 
