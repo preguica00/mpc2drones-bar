@@ -1,104 +1,120 @@
 load ('states.mat')
 load ('control.mat')
+load('extra.mat')
 
-[m, m_bar, inertia_moment,arm_moment,g, C_barra] = parameters;
-% bar
+theta_bar = rad2deg(state_trajectory(:,9));
+dottheta_bar = rad2deg(state_trajectory(:,10));
+theta1 = rad2deg(state_trajectory(:,1));
+dottheta1 = rad2deg(state_trajectory(:,2));
+theta2 = rad2deg(state_trajectory(:,3));
+dottheta2 = rad2deg(state_trajectory(:,4));
+xbar = state_trajectory(:,5);
+dotxbar= state_trajectory(:,7);
+zbar=state_trajectory(:,6);
+dotzbar=state_trajectory(:,8);
+
 figure
-title('Bar-related states')
-subplot(3,2,1)
-plot(state_trajectory(:,5), 'b', 'Linewidth', 1);
-xlim([1 50])
+plot(state_trajectory(:,5), 'b', 'Linewidth', 1.5);
+xlim([1 40])
+ylim([0.5 1])
 ylabel('x_{bar} (m)','FontSize',14)
 xlabel('Discrete Time','FontSize',14)
 
-subplot(3,2,2)
-plot(state_trajectory(:,6),'b', 'Linewidth', 1);
-xlim([1 50])
-ylabel('z_{bar} (m)','FontSize',14)
-xlabel('Discrete Time','FontSize',14)
-
-subplot(3,2,3)
-plot(rad2deg(state_trajectory(:,9)),'b', 'Linewidth', 1);
-xlim([1 50])
-ylabel('\theta_{bar} (º)','FontSize',14)
-xlabel('Discrete Time','FontSize',14)
-
-subplot(3,2,4)
-plot(state_trajectory(:,7),'b', 'Linewidth', 1);
-xlim([1 50])
+figure
+plot(state_trajectory(:,7),'b', 'Linewidth', 1.5);
+xlim([1 40])
 ylabel('$\dot{x}_{bar}$ (m/s)', 'Interpreter','latex','FontSize',14)
 xlabel('Discrete Time','FontSize',14)
 
-subplot(3,2,5)
-plot(state_trajectory(:,8),'b', 'Linewidth', 1);
-xlim([1 50])
+figure
+plot(state_trajectory(:,6),'b', 'Linewidth', 1.5);
+xlim([1 40])
+ylim([0 4])
+% ylim([0 1.99])
+ylabel('z_{bar} (m)','FontSize',14)
+xlabel('Discrete Time','FontSize',14)
+
+
+figure
+plot(state_trajectory(:,8),'b', 'Linewidth', 1.5);
+xlim([1 40])
 ylabel('$\dot{z}_{bar}$ (m/s)', 'Interpreter','latex','FontSize',14)
 xlabel('Discrete Time','FontSize',14)
 
-subplot(3,2,6)
-plot(rad2deg(state_trajectory(:,10)),'b', 'Linewidth', 1);
-xlim([1 50])
-ylabel('$\dot{\theta_{bar}}$', 'Interpreter','latex','FontSize',14)
+
+figure
+% subplot(2,1,1)
+plot(rad2deg(state_trajectory(:,9)),'b', 'Linewidth', 1.5);
+xlim([1 40])
+ylabel('\theta_{bar} (º)','FontSize',14)
+xlabel('Discrete Time','FontSize',14)
+
+figure
+plot(rad2deg(state_trajectory(:,10)),'b', 'Linewidth', 1.5);
+xlim([1 40])
+ylabel('$\dot{\theta_{bar}}$ $(^\circ / s)$', 'Interpreter','latex','FontSize',14)
 xlabel('Discrete Time','FontSize',14)
 
 
-% subplot(2,2,3)
-% plot(state_trajectory(:,7),'b', 'Linewidth', 1.5);
-% xlim([1 50])
-% ylabel('$f_1$ (N)', 'Interpreter','latex')
-% xlabel('Discrete Time')
+% Drones
+
+figure
+plot(rad2deg(state_trajectory(:,1)),'b', 'Linewidth', 1.5);
+xlim([1 40])
+ylabel({'\theta_1 (º)'}, 'FontSize',12)
+xlabel('Discrete Time','FontSize',14)
+
+
+figure
+plot(rad2deg(state_trajectory(:,2)),'b', 'Linewidth', 1.5);
+xlim([1 40])
+ylabel({'$\dot{\theta_1}$  $(^\circ / s)$'}, 'Interpreter','latex','FontSize',12)
+xlabel('Discrete Time','FontSize',14)
+
+figure
+plot(rad2deg(state_trajectory(:,3)),'b', 'Linewidth', 1.5);
+xlim([1 40])
+ylabel({'\theta_2 (º)'}, 'FontSize',12)
+xlabel('Discrete Time','FontSize',14)
+
+figure
+plot(rad2deg(state_trajectory(:,4)),'b' ,'Linewidth', 1.5);
+xlim([1 40])
+ylabel({'$\dot{\theta_2}$ $(^\circ / s)$'}, 'Interpreter','latex','FontSize',12)
+xlabel('Discrete Time','FontSize',14)
+
+
 % 
-% subplot(2,2,4)
-% plot(state_trajectory(:,8),'b', 'Linewidth', 1.5);
-% xlim([1 50])
-% ylabel('$f_2$ (N)', 'Interpreter','latex')
-% xlabel('Discrete Time')
-
-
-%% Drones
-
+% % drone 1
 figure
-title('Pitch angles of both drones')
-plot(rad2deg(state_trajectory(:,1)),'r', 'Linewidth', 1);
-hold on;
-plot(rad2deg(state_trajectory(:,3)),'color',[0 0.5 0], 'Linewidth', 1);
-xlim([1 50])
-legend({'\theta_1 (º)','\theta_2 (º)'}, 'FontSize',12)
+stairs(control_variables(:,1),'-k', 'Linewidth', 1);
+xlim([1 40])
+ylabel({'$\tau_{1}$ (N)'},'Interpreter','latex','FontSize',12)
 xlabel('Discrete Time','FontSize',14)
 
 figure
-title('angular speeds of both drones')
-plot(rad2deg(state_trajectory(:,2)),'r', 'Linewidth', 1);
-hold on;
-plot(rad2deg(state_trajectory(:,4)),'color',[0 0.5 0], 'Linewidth', 1);
-xlim([1 50])
-legend({'$\dot{\theta_1}$ ','$\dot{\theta_2}$'}, 'Interpreter','latex','FontSize',12)
-xlabel('Discrete Time','FontSize',14)
-
-
-
-%drone 1
-figure
-title('Differential mode of both drones')
-plot(control_variables(:,1),'r', 'Linewidth', 1);
-hold on;
-plot(control_variables(:,3),'color',[0 0.5 0], 'Linewidth', 1);
-xlim([1 50])
-legend({'$u_{1}$ (N)','$u_{3}$ (N) '},'Interpreter','latex','FontSize',12)
+stairs(control_variables(:,3), '-k','Linewidth', 1);
+xlim([1 40])
+ylabel({'$\tau_{2}$ (N) '},'Interpreter','latex','FontSize',12)
 xlabel('Discrete Time','FontSize',14)
 
 %drone 2
+%tau1
 figure
-title('Common mode of both drones')
-plot(control_variables(:,2),'r', 'Linewidth', 1);
-hold on;
-plot(control_variables(:,4),'color',[0 0.5 0], 'Linewidth', 1);
-xlim([1 50])
-legend({'$u_{2}$ (N)','$u_{4}$ (N)'}, 'Interpreter','latex','FontSize',12)
+stairs(control_variables(:,2),'-k', 'Linewidth', 1.5);
+xlim([1 40])
+ylabel({'$T_{1}$ (N)'}, 'Interpreter','latex','FontSize',12)
 xlabel('Discrete Time','FontSize',12)
 
+figure
+stairs(control_variables(:,4),'-k', 'Linewidth', 1);
+xlim([1 40])
+%legend({'$T_{2}$ (N)'}, 'Interpreter','latex','FontSize',12)
+xlabel('Discrete Time','FontSize',12)
+ylabel('$T_{2}$ (N)','Interpreter','latex','FontSize',12)
 
 
-
-
-   
+% 
+% 
+% 
+%    

@@ -1,6 +1,6 @@
 function dydt = system_ode(t,y,u)
 [H,Ts,drone1_info, drone2_info, bar_info] = system_info;
-[m, m_bar, inertia_moment,arm_moment,g, C_barra] = parameters;
+[m, m_bar, m_bar2,inertia_moment,arm_moment,g, C_barra] = parameters;
  %% Unpack the state and input vectors
 
 
@@ -29,9 +29,9 @@ diff_mode_d2  = u(3);
 common_mode_d2 = u(4);
 
 %%Equations of motion
-x_acceleration_bar = (-common_mode_d1*sin(theta_d1)-common_mode_d2*sin(theta_d2))/(2*m+m_bar);
+x_acceleration_bar = (-common_mode_d1*sin(theta_d1)-common_mode_d2*sin(theta_d2))/(2*m+m_bar2);
 
-z_acceleration_bar = ((-2*m-m_bar)*g+ common_mode_d1*cos(theta_d1)+common_mode_d2*cos(theta_d2))/(2*m+m_bar);
+z_acceleration_bar = ((-2*m-m_bar2)*g+ common_mode_d1*cos(theta_d1)+common_mode_d2*cos(theta_d2))/(2*m+m_bar2);
 
 pitch_acceleration_d1 = (arm_moment/inertia_moment)*diff_mode_d1;
 

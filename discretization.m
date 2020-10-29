@@ -66,7 +66,8 @@ end
 
 % c = [sum(radius+0.9) - vecnorm([com_x';com_z']-obj_coord)];
 % c=(sqrt((x_d2-x_d1).^2+(z_d2-z_d1).^2)-3);
-
+z1= z_bar-(C_barra/2)*sin(theta_bar);
+z2= z_bar+(C_barra/2)*sin(theta_bar);
 
 c=[];
 end

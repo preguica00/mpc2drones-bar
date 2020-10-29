@@ -1,7 +1,7 @@
-  function  [command, optimum, predicted_trajectory] = optimizetrajectory(current_state, optimum,k)
+  function  [costt, command, optimum, predicted_trajectory] = optimizetrajectory(current_state, optimum,k)
 
 
-[m, m_bar, inertia_moment,arm_moment,g, C_barra] = parameters;
+[m, m_bar, m_bar2,inertia_moment,arm_moment,g, C_barra] = parameters;
 %% Initial conditions 
     
     % drone 1
@@ -47,8 +47,8 @@
 lb=[];
 ub=[];
     [optimum, ~] = fmincon(@(y)costfunction(y, H,k), optimum,[],[],[],[],lb,ub,@(y)discretization(y,init_vector),opts);
-   
-   
+ 
+    costt= costfunction(optimum, H,k);
   %% Unpacking drones
 % drone 1 
 id1_u1 = drone1_info(1,:);
@@ -91,6 +91,7 @@ idbar_dottheta = bar_info(6,:);
    theta_optimum_bar = optimum(idbar_theta);
    angvelocity_optimum_bar = optimum(idbar_dottheta);
    
+
    command =[u1_optimum_d1(1), u2_optimum_d1(1),u3_optimum_d2(1), u4_optimum_d2(1)];
 
    predicted_trajectory = [theta_optimum_d1,angvelocity_optimum_d1,theta_optimum_d2,angvelocity_optimum_d2,x_optimum_bar,z_optimum_bar, xvelocity_optimum_bar,zvelocity_optimum_bar, theta_optimum_bar,angvelocity_optimum_bar ];
